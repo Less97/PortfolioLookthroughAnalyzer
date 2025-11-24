@@ -40,9 +40,9 @@ sleep 8
 echo ""
 echo "✅ Portfolio Analyzer is running!"
 echo ""
-echo "📊 Dashboard: https://localhost:5001"
-echo "🔌 API:       https://localhost:7000"
-echo "📋 Swagger:   https://localhost:7000/swagger"
+echo "📊 Dashboard: http://localhost:5001"
+echo "🔌 API:       http://localhost:5000"
+echo "📋 Swagger:   http://localhost:5000/swagger"
 echo ""
 echo "📝 Logs:"
 echo "   API: $SCRIPT_DIR/logs/api.log"
@@ -55,7 +55,7 @@ echo ""
 sleep 2
 if command -v open &> /dev/null; then
     echo "🌍 Opening browser..."
-    open https://localhost:5001
+    open http://localhost:5001
 fi
 
 echo ""
