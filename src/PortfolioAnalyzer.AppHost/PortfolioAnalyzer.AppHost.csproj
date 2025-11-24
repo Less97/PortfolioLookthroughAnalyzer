@@ -15,7 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PortfolioAnalyzer.Api\PortfolioAnalyzer.Api.csproj" />
     <ProjectReference Include="..\PortfolioAnalyzer.Web\PortfolioAnalyzer.Web.csproj" />
-    <ProjectReference Include="..\PortfolioAnalyzer.ServiceDefaults\PortfolioAnalyzer.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\PortfolioAnalyzer.ServiceDefaults\PortfolioAnalyzer.ServiceDefaults.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>
