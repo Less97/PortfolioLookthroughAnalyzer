@@ -1,5 +1,6 @@
 @page "/"
 @inject IPortfolioClient PortfolioClient
+@using PortfolioModel = PortfolioAnalyzer.Shared.Models.Portfolio
 
 <PageTitle>Portfolio Dashboard</PageTitle>
 
@@ -107,7 +108,7 @@ else
 }
 
 @code {
-    private Portfolio? portfolio;
+    private PortfolioModel? portfolio;
     private PortfolioAnalytics? analytics;
 
     protected override async Task OnInitializedAsync()
