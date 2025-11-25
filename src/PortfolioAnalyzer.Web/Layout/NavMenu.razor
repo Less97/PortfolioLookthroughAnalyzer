@@ -1,55 +1,142 @@
 <div class="nav-menu">
+    <div class="brand-header">
+        <div class="brand-name">Portfolio<span class="brand-suffix">Inc.</span></div>
+        <div class="brand-subtitle">CONSOLIDATED LEDGER</div>
+    </div>
+
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span> Dashboard
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="portfolio">
-                <span class="bi bi-briefcase-fill" aria-hidden="true"></span> Portfolio
+                <span class="bi bi-grid-fill" aria-hidden="true"></span> Overview
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="analytics">
-                <span class="bi bi-graph-up" aria-hidden="true"></span> Analytics
+                <span class="bi bi-graph-up" aria-hidden="true"></span> Visualizations
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="portfolio">
+                <span class="bi bi-briefcase-fill" aria-hidden="true"></span> Holdings
             </NavLink>
         </div>
     </nav>
+
+    <div class="user-profile">
+        <div class="user-avatar">JD</div>
+        <div class="user-info">
+            <div class="user-name">John Doe</div>
+            <div class="user-title">Chairman & CEO</div>
+        </div>
+    </div>
 </div>
 
 <style>
     .nav-menu {
-        background: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
-        padding: 1rem;
+        background: #1a1a1a;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brand-header {
+        padding: 2rem 1.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .brand-name {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: #ffffff;
+        letter-spacing: -0.5px;
+    }
+
+    .brand-suffix {
+        font-weight: 300;
+        opacity: 0.7;
+    }
+
+    .brand-subtitle {
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.5);
+        letter-spacing: 1px;
+        margin-top: 0.25rem;
+        font-weight: 300;
+    }
+
+    nav {
+        flex: 1;
+        padding: 1.5rem 0;
     }
 
     .nav-item {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
     }
 
     .nav-link {
-        color: #d7d7d7;
-        border-radius: 4px;
+        color: rgba(255,255,255,0.7);
+        border-radius: 0;
         height: 3rem;
         display: flex;
         align-items: center;
         line-height: 3rem;
         text-decoration: none;
-        padding: 0 1rem;
+        padding: 0 1.5rem;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
     }
 
     .nav-link:hover {
-        background-color: rgba(255,255,255,0.1);
+        background-color: rgba(255,255,255,0.05);
         color: white;
     }
 
     .nav-link.active {
-        background-color: rgba(255,255,255,0.25);
+        background-color: rgba(255,255,255,0.1);
         color: white;
+        border-left: 3px solid #ffffff;
     }
 
     .nav-link span {
-        margin-right: 0.5rem;
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
+    }
+
+    .user-profile {
+        padding: 1.5rem;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .user-info {
+        flex: 1;
+    }
+
+    .user-name {
+        color: white;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-bottom: 0.1rem;
+    }
+
+    .user-title {
+        color: rgba(255,255,255,0.5);
+        font-size: 0.75rem;
     }
 </style>

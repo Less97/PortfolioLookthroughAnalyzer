@@ -4,65 +4,60 @@
 
 <PageTitle>Portfolio Holdings</PageTitle>
 
-<h1>Portfolio Holdings</h1>
-
 @if (portfolio == null)
 {
     <p><em>Loading portfolio...</em></p>
 }
 else
 {
-    <div class="portfolio-summary">
-        <div class="summary-card">
-            <h3>Total Value</h3>
-            <div class="value">@portfolio.TotalMarketValue.ToString("C2")</div>
+    <div class="page-header">
+        <div class="page-title-section">
+            <h1>Portfolio Holdings</h1>
+            <p class="page-subtitle">Detailed line-by-line breakdown.</p>
         </div>
-        <div class="summary-card">
-            <h3>Cash</h3>
-            <div class="value">@portfolio.Cash.ToString("C2")</div>
-        </div>
-        <div class="summary-card">
-            <h3>Invested</h3>
-            <div class="value">@portfolio.Positions.Sum(p => p.MarketValue).ToString("C2")</div>
-        </div>
-        <div class="summary-card">
-            <h3>Total Return</h3>
-            <div class="value" style="color: @(portfolio.TotalUnrealizedPnL >= 0 ? "#10b981" : "#ef4444")">
-                @portfolio.TotalUnrealizedPnL.ToString("C2")
-            </div>
-            <div class="subtext">@portfolio.TotalUnrealizedPnLPercent.ToString("F2")%</div>
+        <div class="view-mode">
+            <span class="mode-label">MODE:</span>
+            <span class="mode-value">Market View</span>
         </div>
     </div>
 
-    <div class="positions-table">
-        <table>
+    <div class="holdings-table-container">
+        <table class="holdings-table">
             <thead>
                 <tr>
-                    <th>Symbol</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Avg Cost</th>
-                    <th>Current Price</th>
-                    <th>Market Value</th>
-                    <th>P&L</th>
-                    <th>Return %</th>
+                    <th class="text-left">COMPANY</th>
+                    <th class="text-right">PRICE</th>
+                    <th class="text-right">VALUE</th>
+                    <th class="text-center">ALLOCATION</th>
+                    <th class="text-right">1Y RETURN</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var position in portfolio.Positions.OrderByDescending(p => p.MarketValue))
                 {
+                    var allocation = (position.MarketValue / portfolio.TotalMarketValue * 100);
                     <tr>
-                        <td><strong>@position.Symbol</strong></td>
-                        <td>@position.Security?.Name</td>
-                        <td>@position.Quantity.ToString("N2")</td>
-                        <td>@position.AverageCost.ToString("C2")</td>
-                        <td>@position.CurrentPrice.ToString("C2")</td>
-                        <td>@position.MarketValue.ToString("C2")</td>
-                        <td style="color: @(position.UnrealizedPnL >= 0 ? "#10b981" : "#ef4444")">
-                            @position.UnrealizedPnL.ToString("C2")
+                        <td class="company-cell">
+                            <div class="company-info">
+                                <div class="company-avatar">@position.Symbol.Substring(0, 1)</div>
+                                <div class="company-details">
+                                    <div class="company-symbol">@position.Symbol</div>
+                                    <div class="company-name">@position.Security?.Name</div>
+                                </div>
+                            </div>
                         </td>
-                        <td style="color: @(position.UnrealizedPnLPercent >= 0 ? "#10b981" : "#ef4444")">
-                            @position.UnrealizedPnLPercent.ToString("F2")%
+                        <td class="text-right">@position.CurrentPrice.ToString("C2")</td>
+                        <td class="text-right font-semibold">@position.MarketValue.ToString("C0")</td>
+                        <td class="text-center">
+                            <div class="allocation-cell">
+                                <div class="allocation-bar-bg">
+                                    <div class="allocation-bar" style="width: @(allocation)%"></div>
+                                </div>
+                                <span class="allocation-text">@allocation.ToString("F1")%</span>
+                            </div>
+                        </td>
+                        <td class="text-right return-cell @(position.UnrealizedPnLPercent >= 0 ? "positive" : "negative")">
+                            @(position.UnrealizedPnLPercent >= 0 ? "+" : "")@position.UnrealizedPnLPercent.ToString("F1")% (Fund.)
                         </td>
                     </tr>
                 }
@@ -81,72 +76,180 @@ else
 }
 
 <style>
-    .portfolio-summary {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
         margin-bottom: 2rem;
     }
 
-    .summary-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    .page-title-section h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 400;
+        color: #1a1a1a;
     }
 
-    .summary-card h3 {
-        margin: 0 0 0.5rem 0;
-        font-size: 0.875rem;
+    .page-subtitle {
+        margin: 0.5rem 0 0 0;
         color: #6b7280;
-        text-transform: uppercase;
+        font-size: 0.95rem;
     }
 
-    .summary-card .value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #111827;
+    .view-mode {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
     }
 
-    .summary-card .subtext {
-        font-size: 0.875rem;
-        color: #6b7280;
-        margin-top: 0.25rem;
+    .mode-label {
+        color: #9ca3af;
     }
 
-    .positions-table {
+    .mode-value {
+        color: #1a1a1a;
+        font-weight: 500;
+    }
+
+    .holdings-table-container {
         background: white;
-        border-radius: 8px;
-        padding: 1rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        overflow-x: auto;
+        border-radius: 12px;
+        padding: 0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        overflow: hidden;
     }
 
-    table {
+    .holdings-table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    th {
-        text-align: left;
-        padding: 0.75rem;
-        background: #f9fafb;
-        font-weight: 600;
-        font-size: 0.875rem;
-        color: #374151;
-        border-bottom: 2px solid #e5e7eb;
-    }
-
-    td {
-        padding: 0.75rem;
+    .holdings-table thead {
+        background: #fafafa;
         border-bottom: 1px solid #e5e7eb;
     }
 
-    tr:last-child td {
+    .holdings-table th {
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: #9ca3af;
+        letter-spacing: 0.5px;
+    }
+
+    .holdings-table td {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #f3f4f6;
+        font-size: 0.95rem;
+        color: #1a1a1a;
+    }
+
+    .holdings-table tbody tr:last-child td {
         border-bottom: none;
     }
 
-    tr:hover {
-        background: #f9fafb;
+    .holdings-table tbody tr:hover {
+        background: #fafafa;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .font-semibold {
+        font-weight: 600;
+    }
+
+    .company-cell {
+        min-width: 250px;
+    }
+
+    .company-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .company-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #6b7280;
+    }
+
+    .company-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .company-symbol {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #1a1a1a;
+        margin-bottom: 0.15rem;
+    }
+
+    .company-name {
+        font-size: 0.85rem;
+        color: #6b7280;
+    }
+
+    .allocation-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .allocation-bar-bg {
+        width: 80px;
+        height: 6px;
+        background: #f3f4f6;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .allocation-bar {
+        height: 100%;
+        background: #1a1a1a;
+        border-radius: 3px;
+    }
+
+    .allocation-text {
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .return-cell {
+        font-weight: 500;
+    }
+
+    .return-cell.positive {
+        color: #10b981;
+    }
+
+    .return-cell.negative {
+        color: #ef4444;
+    }
+
+    @media (max-width: 768px) {
+        .holdings-table-container {
+            overflow-x: auto;
+        }
     }
 </style>

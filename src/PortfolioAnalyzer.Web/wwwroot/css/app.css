@@ -2,11 +2,16 @@ html, body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f3f4f6;
+    background-color: #f8f9fa;
+    color: #1a1a1a;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 a, .btn-link {
-    color: #0066cc;
+    color: #1a1a1a;
     text-decoration: none;
 }
 
@@ -17,30 +22,24 @@ a:hover, .btn-link:hover {
 .page {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 
 .sidebar {
-    width: 250px;
-    background: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    width: 280px;
+    background: #1a1a1a;
+    flex-shrink: 0;
 }
 
 main {
     flex: 1;
     overflow-y: auto;
-}
-
-.top-row {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 1.5rem;
+    background: #f8f9fa;
 }
 
 .content {
-    padding-top: 1.1rem;
+    padding: 2.5rem 3rem;
+    max-width: 1600px;
 }
 
 .loading-container {
@@ -86,14 +85,21 @@ main {
 
 h1 {
     font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    color: #111827;
+    font-weight: 400;
+    margin: 0;
+    color: #1a1a1a;
 }
 
 h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #374151;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 0.75rem 0;
+    color: #1a1a1a;
 }

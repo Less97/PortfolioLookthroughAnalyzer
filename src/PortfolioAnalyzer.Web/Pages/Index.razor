@@ -2,9 +2,7 @@
 @inject IPortfolioClient PortfolioClient
 @using PortfolioModel = PortfolioAnalyzer.Shared.Models.Portfolio
 
-<PageTitle>Portfolio Dashboard</PageTitle>
-
-<h1>Portfolio Dashboard</h1>
+<PageTitle>Executive Summary</PageTitle>
 
 @if (portfolio == null || analytics == null)
 {
@@ -12,98 +10,79 @@
 }
 else
 {
-    <div class="dashboard-grid">
-        <div class="card">
-            <h3>Portfolio Value</h3>
-            <div class="metric-value">@portfolio.TotalMarketValue.ToString("C0")</div>
-            <div class="metric-label">Total Market Value</div>
+    <div class="page-header">
+        <div class="page-title-section">
+            <h1>Executive Summary</h1>
+            <p class="page-subtitle">Trailing Twelve Months (TTM) consolidated operating metrics.</p>
         </div>
-
-        <div class="card">
-            <h3>Total P&L</h3>
-            <div class="metric-value" style="color: @(portfolio.TotalUnrealizedPnL >= 0 ? "#10b981" : "#ef4444")">
-                @portfolio.TotalUnrealizedPnL.ToString("C0")
-            </div>
-            <div class="metric-label">@portfolio.TotalUnrealizedPnLPercent.ToString("F2")% Return</div>
-        </div>
-
-        <div class="card">
-            <h3>Total Revenue</h3>
-            <div class="metric-value">@analytics.TotalRevenue.ToString("C0")</div>
-            <div class="metric-label">Weighted Portfolio Revenue</div>
-        </div>
-
-        <div class="card">
-            <h3>Free Cash Flow</h3>
-            <div class="metric-value">@analytics.TotalFreeCashFlow.ToString("C0")</div>
-            <div class="metric-label">Weighted Portfolio FCF</div>
-        </div>
-
-        <div class="card">
-            <h3>Revenue Growth</h3>
-            <div class="metric-value">@analytics.WeightedRevenueGrowth.ToString("F2")%</div>
-            <div class="metric-label">Weighted Growth Rate</div>
-        </div>
-
-        <div class="card">
-            <h3>Earnings Growth</h3>
-            <div class="metric-value">@analytics.WeightedEarningsGrowth.ToString("F2")%</div>
-            <div class="metric-label">Weighted Earnings Growth</div>
-        </div>
-
-        <div class="card">
-            <h3>Annual Dividends</h3>
-            <div class="metric-value">@analytics.TotalAnnualDividends.ToString("C0")</div>
-            <div class="metric-label">@analytics.TotalDividendYield.ToString("F2")% Yield</div>
-        </div>
-
-        <div class="card">
-            <h3>Positions</h3>
-            <div class="metric-value">@portfolio.Positions.Count</div>
-            <div class="metric-label">Active Holdings</div>
+        <div class="portfolio-value-header">
+            <div class="header-label">TOTAL MARKET EQUITY</div>
+            <div class="header-value">@portfolio.TotalMarketValue.ToString("C0")</div>
         </div>
     </div>
 
-    <div class="charts-section">
-        <h2>Top Contributors</h2>
-        @if (analytics.TopContributors.Any())
-        {
-            <div class="contributors-list">
-                @foreach (var contributor in analytics.TopContributors.Take(5))
-                {
-                    <div class="contributor-item">
-                        <div class="contributor-name">
-                            <strong>@contributor.Symbol</strong> - @contributor.Name
-                        </div>
-                        <div class="contributor-value" style="color: #10b981;">
-                            +@contributor.ContributionAmount.ToString("C0") (@contributor.ContributionPercent.ToString("F2")%)
-                        </div>
-                    </div>
-                }
+    <div class="executive-grid">
+        <div class="metric-card large">
+            <div class="metric-icon">
+                <span class="bi bi-bar-chart-line-fill"></span>
             </div>
-        }
+            <div class="metric-content">
+                <div class="metric-label">LOOK-THROUGH REVENUE</div>
+                <div class="metric-value">@analytics.TotalRevenue.ToString("C0")</div>
+                <div class="metric-change positive">
+                    <span class="bi bi-arrow-up"></span> +@analytics.WeightedRevenueGrowth.ToString("F1")% YoY
+                </div>
+            </div>
+        </div>
 
-        <h2>Top Detractors</h2>
-        @if (analytics.TopDetractors.Any())
-        {
-            <div class="contributors-list">
-                @foreach (var detractor in analytics.TopDetractors.Take(5))
-                {
-                    <div class="contributor-item">
-                        <div class="contributor-name">
-                            <strong>@detractor.Symbol</strong> - @detractor.Name
-                        </div>
-                        <div class="contributor-value" style="color: #ef4444;">
-                            @detractor.ContributionAmount.ToString("C0") (@detractor.ContributionPercent.ToString("F2")%)
-                        </div>
-                    </div>
-                }
+        <div class="metric-card large">
+            <div class="metric-icon">
+                <span class="bi bi-cash-coin"></span>
             </div>
-        }
-        else
-        {
-            <p>No detractors - all positions are profitable!</p>
-        }
+            <div class="metric-content">
+                <div class="metric-label">LOOK-THROUGH EARNINGS</div>
+                <div class="metric-value">@analytics.TotalFreeCashFlow.ToString("C0")</div>
+                <div class="metric-change positive">
+                    <span class="bi bi-arrow-up"></span> +@analytics.WeightedEarningsGrowth.ToString("F1")% YoY
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-sidebar">
+            <div class="sidebar-metric">
+                <div class="sidebar-label">EARNINGS YIELD</div>
+                <div class="sidebar-value">@((analytics.TotalFreeCashFlow / portfolio.TotalMarketValue * 100).ToString("F1"))%</div>
+                <div class="sidebar-comparison">S&P 500 Avg: ~4.1%</div>
+            </div>
+
+            <div class="sidebar-metric">
+                <div class="sidebar-label">PROFIT MARGIN</div>
+                <div class="sidebar-value">@((analytics.TotalFreeCashFlow / analytics.TotalRevenue * 100).ToString("F1"))%</div>
+                <div class="sidebar-comparison">Aggregate Net Margin</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div class="status-text">Consolidated reporting for @portfolio.Positions.Count holdings</div>
+        <div class="operational-health">
+            <span class="health-indicator"></span>
+            Operational Health: Strong
+        </div>
+    </div>
+
+    <div class="growth-section">
+        <div class="growth-header">
+            <div class="growth-title">1-YEAR FUNDAMENTAL GROWTH ATTRIBUTION</div>
+            <div class="growth-icon">
+                <span class="bi bi-box-arrow-up-right"></span>
+            </div>
+        </div>
+        <div class="growth-content">
+            <div class="growth-value">+@analytics.WeightedEarningsGrowth.ToString("F1"))%</div>
+            <div class="growth-label">Portfolio Earnings Growth</div>
+            <div class="growth-subtext">Tap to view which companies drove this performance</div>
+        </div>
     </div>
 }
 
@@ -119,76 +98,221 @@ else
 }
 
 <style>
-    .dashboard-grid {
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    .page-title-section h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 400;
+        color: #1a1a1a;
+    }
+
+    .page-subtitle {
+        margin: 0.5rem 0 0 0;
+        color: #6b7280;
+        font-size: 0.95rem;
+    }
+
+    .portfolio-value-header {
+        text-align: right;
+    }
+
+    .header-label {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
+    }
+
+    .header-value {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .executive-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: 1fr 1fr auto;
         gap: 1.5rem;
         margin-bottom: 2rem;
     }
 
-    .card {
+    .metric-card {
         background: white;
-        border-radius: 8px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        display: flex;
+        gap: 1.5rem;
     }
 
-    .card h3 {
-        margin: 0 0 1rem 0;
-        font-size: 0.875rem;
+    .metric-icon {
+        width: 50px;
+        height: 50px;
+        background: #f3f4f6;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
         color: #6b7280;
-        text-transform: uppercase;
-        font-weight: 600;
     }
 
-    .metric-value {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 0.25rem;
-        color: #111827;
+    .metric-content {
+        flex: 1;
     }
 
     .metric-label {
-        font-size: 0.875rem;
+        font-size: 0.75rem;
+        color: #9ca3af;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.75rem;
+    }
+
+    .metric-value {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+        line-height: 1;
+    }
+
+    .metric-change {
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .metric-change.positive {
+        color: #10b981;
+    }
+
+    .metric-change.negative {
+        color: #ef4444;
+    }
+
+    .metrics-sidebar {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        min-width: 250px;
+    }
+
+    .sidebar-metric {
+        text-align: right;
+    }
+
+    .sidebar-label {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .sidebar-value {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 0.25rem;
+    }
+
+    .sidebar-comparison {
+        font-size: 0.85rem;
         color: #6b7280;
     }
 
-    .charts-section {
-        margin-top: 2rem;
-    }
-
-    .charts-section h2 {
-        margin-bottom: 1rem;
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-
-    .contributors-list {
-        background: white;
-        border-radius: 8px;
-        padding: 1rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .contributor-item {
+    .status-bar {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.75rem;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .contributor-item:last-child {
-        border-bottom: none;
-    }
-
-    .contributor-name {
+        padding: 1rem 0;
+        margin-bottom: 2rem;
         font-size: 0.9rem;
+        color: #6b7280;
     }
 
-    .contributor-value {
+    .operational-health {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .health-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10b981;
+    }
+
+    .growth-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .growth-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .growth-title {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        letter-spacing: 0.5px;
+    }
+
+    .growth-icon {
+        color: #9ca3af;
+    }
+
+    .growth-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .growth-value {
+        font-size: 3rem;
         font-weight: 600;
-        font-size: 0.95rem;
+        color: #10b981;
+        margin-bottom: 0.5rem;
+    }
+
+    .growth-label {
+        font-size: 1.1rem;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+
+    .growth-subtext {
+        font-size: 0.9rem;
+        color: #9ca3af;
+    }
+
+    @media (max-width: 1200px) {
+        .executive-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .metrics-sidebar {
+            flex-direction: row;
+        }
+
+        .sidebar-metric {
+            text-align: left;
+            flex: 1;
+        }
     }
 </style>
