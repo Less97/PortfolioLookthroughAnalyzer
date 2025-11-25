@@ -34,7 +34,7 @@ public class MockPortfolioService : IPortfolioService
         var portfolio = new Portfolio
         {
             Name = "Sample Investment Portfolio",
-            Cash = 25000m,
+            Cash = 155000m,
             LastUpdated = DateTime.UtcNow
         };
 
@@ -43,7 +43,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "AAPL",
-                Quantity = 150m,
+                Quantity = 600m,
                 AverageCost = 145.50m,
                 CurrentPrice = 178.25m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-18),
@@ -77,7 +77,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "MSFT",
-                Quantity = 100m,
+                Quantity = 380m,
                 AverageCost = 310.20m,
                 CurrentPrice = 378.50m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-24),
@@ -111,7 +111,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "JNJ",
-                Quantity = 80m,
+                Quantity = 280m,
                 AverageCost = 162.30m,
                 CurrentPrice = 155.75m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-12),
@@ -145,7 +145,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "V",
-                Quantity = 60m,
+                Quantity = 250m,
                 AverageCost = 225.80m,
                 CurrentPrice = 265.40m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-15),
@@ -179,7 +179,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "PG",
-                Quantity = 90m,
+                Quantity = 280m,
                 AverageCost = 142.60m,
                 CurrentPrice = 158.30m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-20),
@@ -213,7 +213,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "GOOGL",
-                Quantity = 75m,
+                Quantity = 400m,
                 AverageCost = 128.40m,
                 CurrentPrice = 142.80m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-10),
@@ -247,7 +247,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "XOM",
-                Quantity = 120m,
+                Quantity = 380m,
                 AverageCost = 98.50m,
                 CurrentPrice = 103.25m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-8),
@@ -281,7 +281,7 @@ public class MockPortfolioService : IPortfolioService
             new Position
             {
                 Symbol = "NVDA",
-                Quantity = 45m,
+                Quantity = 180m,
                 AverageCost = 425.30m,
                 CurrentPrice = 495.20m,
                 PurchaseDate = DateTime.UtcNow.AddMonths(-6),
@@ -308,6 +308,142 @@ public class MockPortfolioService : IPortfolioService
                         PB = 52.8m,
                         ROE = 98.3m,
                         DebtToEquity = 35.6m,
+                        LastUpdated = DateTime.UtcNow
+                    }
+                }
+            },
+            new Position
+            {
+                Symbol = "AMZN",
+                Quantity = 350m,
+                AverageCost = 145.80m,
+                CurrentPrice = 178.50m,
+                PurchaseDate = DateTime.UtcNow.AddMonths(-14),
+                Security = new Security
+                {
+                    Symbol = "AMZN",
+                    Name = "Amazon.com Inc.",
+                    Isin = "US0231351067",
+                    Sector = "Consumer Cyclical",
+                    Industry = "Internet Retail",
+                    Exchange = "NASDAQ",
+                    Currency = "USD",
+                    Fundamentals = new FundamentalData
+                    {
+                        Symbol = "AMZN",
+                        MarketCap = 1850000000000m,
+                        Revenue = 574785000000m,
+                        FreeCashFlow = 35574000000m,
+                        RevenueGrowth = 11.8m,
+                        EarningsGrowth = 52.3m,
+                        DividendYield = 0.0m,
+                        DividendPerShare = 0.0m,
+                        PE = 62.4m,
+                        PB = 8.9m,
+                        ROE = 18.7m,
+                        DebtToEquity = 58.3m,
+                        LastUpdated = DateTime.UtcNow
+                    }
+                }
+            },
+            new Position
+            {
+                Symbol = "JPM",
+                Quantity = 380m,
+                AverageCost = 142.10m,
+                CurrentPrice = 169.75m,
+                PurchaseDate = DateTime.UtcNow.AddMonths(-16),
+                Security = new Security
+                {
+                    Symbol = "JPM",
+                    Name = "JPMorgan Chase & Co.",
+                    Isin = "US46625H1005",
+                    Sector = "Financial Services",
+                    Industry = "Banks",
+                    Exchange = "NYSE",
+                    Currency = "USD",
+                    Fundamentals = new FundamentalData
+                    {
+                        Symbol = "JPM",
+                        MarketCap = 488000000000m,
+                        Revenue = 162421000000m,
+                        FreeCashFlow = 48500000000m,
+                        RevenueGrowth = 22.1m,
+                        EarningsGrowth = 31.6m,
+                        DividendYield = 2.35m,
+                        DividendPerShare = 4.00m,
+                        PE = 11.8m,
+                        PB = 1.7m,
+                        ROE = 16.5m,
+                        DebtToEquity = 125.8m,
+                        LastUpdated = DateTime.UtcNow
+                    }
+                }
+            },
+            new Position
+            {
+                Symbol = "TSLA",
+                Quantity = 280m,
+                AverageCost = 185.40m,
+                CurrentPrice = 241.20m,
+                PurchaseDate = DateTime.UtcNow.AddMonths(-9),
+                Security = new Security
+                {
+                    Symbol = "TSLA",
+                    Name = "Tesla Inc.",
+                    Isin = "US88160R1014",
+                    Sector = "Consumer Cyclical",
+                    Industry = "Auto Manufacturers",
+                    Exchange = "NASDAQ",
+                    Currency = "USD",
+                    Fundamentals = new FundamentalData
+                    {
+                        Symbol = "TSLA",
+                        MarketCap = 767000000000m,
+                        Revenue = 96773000000m,
+                        FreeCashFlow = 4381000000m,
+                        RevenueGrowth = 18.8m,
+                        EarningsGrowth = 19.3m,
+                        DividendYield = 0.0m,
+                        DividendPerShare = 0.0m,
+                        PE = 73.5m,
+                        PB = 14.2m,
+                        ROE = 23.5m,
+                        DebtToEquity = 15.2m,
+                        LastUpdated = DateTime.UtcNow
+                    }
+                }
+            },
+            new Position
+            {
+                Symbol = "META",
+                Quantity = 260m,
+                AverageCost = 295.60m,
+                CurrentPrice = 485.30m,
+                PurchaseDate = DateTime.UtcNow.AddMonths(-22),
+                Security = new Security
+                {
+                    Symbol = "META",
+                    Name = "Meta Platforms Inc.",
+                    Isin = "US30303M1027",
+                    Sector = "Technology",
+                    Industry = "Internet Content",
+                    Exchange = "NASDAQ",
+                    Currency = "USD",
+                    Fundamentals = new FundamentalData
+                    {
+                        Symbol = "META",
+                        MarketCap = 1240000000000m,
+                        Revenue = 134902000000m,
+                        FreeCashFlow = 43000000000m,
+                        RevenueGrowth = 23.2m,
+                        EarningsGrowth = 73.4m,
+                        DividendYield = 0.34m,
+                        DividendPerShare = 1.68m,
+                        PE = 28.9m,
+                        PB = 8.1m,
+                        ROE = 32.6m,
+                        DebtToEquity = 8.5m,
                         LastUpdated = DateTime.UtcNow
                     }
                 }
