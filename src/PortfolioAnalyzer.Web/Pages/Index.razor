@@ -28,7 +28,7 @@ else
             </div>
             <div class="metric-content">
                 <div class="metric-label">LOOK-THROUGH REVENUE</div>
-                <div class="metric-value">TEST: $123,456</div>
+                <div class="metric-value">DEBUG: @analytics.TotalRevenue.ToString("N0")</div>
                 <div class="metric-change positive">
                     <span class="bi bi-arrow-up"></span> +@analytics.WeightedRevenueGrowth.ToString("F1")% YoY
                 </div>
@@ -41,7 +41,7 @@ else
             </div>
             <div class="metric-content">
                 <div class="metric-label">LOOK-THROUGH EARNINGS</div>
-                <div class="metric-value">TEST: $98,765</div>
+                <div class="metric-value">DEBUG: @analytics.TotalFreeCashFlow.ToString("N0")</div>
                 <div class="metric-change positive">
                     <span class="bi bi-arrow-up"></span> +@analytics.WeightedEarningsGrowth.ToString("F1")% YoY
                 </div>
@@ -51,7 +51,12 @@ else
         <div class="metrics-sidebar">
             <div class="sidebar-metric">
                 <div class="sidebar-label">EARNINGS YIELD</div>
-                <div class="sidebar-value">@((analytics.TotalFreeCashFlow / portfolio.TotalMarketValue * 100).ToString("F1"))%</div>
+                <div class="sidebar-value">
+                    DEBUG:<br/>
+                    FCF: @analytics.TotalFreeCashFlow.ToString("N0")<br/>
+                    MktVal: @portfolio.TotalMarketValue.ToString("N0")<br/>
+                    Yield: @((analytics.TotalFreeCashFlow / portfolio.TotalMarketValue * 100).ToString("F1"))%
+                </div>
                 <div class="sidebar-comparison">S&P 500 Avg: ~4.1%</div>
             </div>
 
