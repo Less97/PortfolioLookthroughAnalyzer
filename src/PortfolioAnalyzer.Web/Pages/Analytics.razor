@@ -42,33 +42,6 @@ else
     </div>
 
     <div class="analytics-section">
-        <h2>Sector Summary Table</h2>
-        <div class="sector-table-container">
-            <table class="sector-table">
-                <thead>
-                    <tr>
-                        <th class="text-left">SECTOR</th>
-                        <th class="text-right">VALUE</th>
-                        <th class="text-right">ALLOCATION</th>
-                        <th class="text-right">POSITIONS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var sector in analytics.SectorAllocations.OrderByDescending(s => s.Value))
-                    {
-                        <tr>
-                            <td class="text-left font-semibold">@sector.Sector</td>
-                            <td class="text-right">@sector.Value.ToString("C0")</td>
-                            <td class="text-right">@sector.Percentage.ToString("F1")%</td>
-                            <td class="text-right">@sector.PositionCount</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="analytics-section">
         <h2>Performance Attribution</h2>
         @if (analytics.TopContributors.Any())
         {
@@ -208,49 +181,6 @@ else
         align-items: center;
         justify-content: flex-end;
         padding-right: 0.75rem;
-    }
-
-    /* Sector Table */
-    .sector-table-container {
-        background: white;
-        border-radius: 12px;
-        padding: 0;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        overflow: hidden;
-        margin-bottom: 2rem;
-    }
-
-    .sector-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .sector-table thead {
-        background: #fafafa;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .sector-table th {
-        padding: 1rem 1.5rem;
-        font-weight: 500;
-        font-size: 0.75rem;
-        color: #9ca3af;
-        letter-spacing: 0.5px;
-    }
-
-    .sector-table td {
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid #f3f4f6;
-        font-size: 0.95rem;
-        color: #1a1a1a;
-    }
-
-    .sector-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    .sector-table tbody tr:hover {
-        background: #fafafa;
     }
 
     /* Chart Container */
