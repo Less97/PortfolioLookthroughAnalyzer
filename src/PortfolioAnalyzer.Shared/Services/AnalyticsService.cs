@@ -35,9 +35,13 @@ public class AnalyticsService : IAnalyticsService
             {
                 var fundamentals = position.Security.Fundamentals;
 
-                // Aggregate revenue and FCF based on position weight
-                totalRevenue += fundamentals.Revenue * weight;
-                totalFreeCashFlow += fundamentals.FreeCashFlow * weight;
+                // Look-through revenue and FCF: (Company Metric / Market Cap) × Position Value
+                // This calculates your proportional share of the company's fundamentals
+                if (fundamentals.MarketCap > 0)
+                {
+                    totalRevenue += (fundamentals.Revenue / fundamentals.MarketCap) * positionValue;
+                    totalFreeCashFlow += (fundamentals.FreeCashFlow / fundamentals.MarketCap) * positionValue;
+                }
 
                 // Weighted growth rates
                 weightedRevenueGrowth += fundamentals.RevenueGrowth * weight;
