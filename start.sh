@@ -9,6 +9,11 @@ echo ""
 # Get the script directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Stop any existing processes first
+echo "🛑 Stopping any existing processes..."
+"$SCRIPT_DIR/stop.sh" > /dev/null 2>&1
+sleep 2
+
 # Clean and rebuild everything first
 echo "🧹 Cleaning old builds..."
 cd "$SCRIPT_DIR"

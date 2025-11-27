@@ -26,8 +26,15 @@ fi
 # Also kill any remaining dotnet processes for these projects
 echo ""
 echo "Cleaning up any remaining processes..."
-pkill -f "PortfolioAnalyzer.Api" 2>/dev/null
-pkill -f "PortfolioAnalyzer.Web" 2>/dev/null
+pkill -9 -f "PortfolioAnalyzer.Api" 2>/dev/null
+pkill -9 -f "PortfolioAnalyzer.Web" 2>/dev/null
+
+# Force kill any process on ports 5000 and 5001
+echo "Freeing up ports 5000 and 5001..."
+lsof -ti:5000 | xargs kill -9 2>/dev/null || true
+lsof -ti:5001 | xargs kill -9 2>/dev/null || true
+
+sleep 1
 
 echo ""
 echo "✅ Portfolio Analyzer stopped!"
