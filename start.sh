@@ -9,13 +9,26 @@ echo ""
 # Get the script directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Clean and rebuild everything first
+echo "🧹 Cleaning old builds..."
+cd "$SCRIPT_DIR"
+dotnet clean > /dev/null 2>&1
+rm -rf src/*/bin src/*/obj
+
+echo "🔨 Building solution..."
+dotnet build
+if [ $? -ne 0 ]; then
+    echo "❌ Build failed! Check errors above."
+    exit 1
+fi
+
 # Create logs directory
 mkdir -p "$SCRIPT_DIR/logs"
 
 # Start API
 echo "📡 Starting API service..."
 cd "$SCRIPT_DIR/src/PortfolioAnalyzer.Api"
-dotnet run > "$SCRIPT_DIR/logs/api.log" 2>&1 &
+dotnet run --no-build > "$SCRIPT_DIR/logs/api.log" 2>&1 &
 API_PID=$!
 echo "   API PID: $API_PID"
 
@@ -25,7 +38,7 @@ sleep 3
 # Start Web
 echo "🌐 Starting Web application..."
 cd "$SCRIPT_DIR/src/PortfolioAnalyzer.Web"
-dotnet run > "$SCRIPT_DIR/logs/web.log" 2>&1 &
+dotnet run --no-build > "$SCRIPT_DIR/logs/web.log" 2>&1 &
 WEB_PID=$!
 echo "   Web PID: $WEB_PID"
 
