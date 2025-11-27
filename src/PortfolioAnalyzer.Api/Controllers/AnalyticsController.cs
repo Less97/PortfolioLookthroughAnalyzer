@@ -27,16 +27,8 @@ public class AnalyticsController : ControllerBase
     {
         try
         {
-            _logger.LogWarning("=== API VERSION: 2024-11-27-v2 ===");
             var portfolio = await _portfolioService.GetPortfolioAsync();
-            _logger.LogWarning($"Portfolio Total Market Value: {portfolio.TotalMarketValue:N0}");
-            _logger.LogWarning($"Portfolio Positions Count: {portfolio.Positions.Count}");
-            _logger.LogWarning($"Portfolio Cash: {portfolio.Cash:N0}");
-
             var analytics = await _analyticsService.CalculateAnalyticsAsync(portfolio);
-            _logger.LogWarning($"Calculated Total Revenue: {analytics.TotalRevenue:N0}");
-            _logger.LogWarning($"Calculated Total FCF: {analytics.TotalFreeCashFlow:N0}");
-
             return Ok(analytics);
         }
         catch (Exception ex)
