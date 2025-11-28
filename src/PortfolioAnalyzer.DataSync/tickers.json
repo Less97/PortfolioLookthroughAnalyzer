@@ -1,0 +1,21 @@
+{
+  "tickers": [
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "AMZN",
+    "NVDA",
+    "META",
+    "BRK.B",
+    "JNJ",
+    "V",
+    "PG",
+    "XOM",
+    "JPM",
+    "MA",
+    "HD",
+    "UNH"
+  ],
+  "syncSchedule": "0 0 6 * * *",
+  "description": "Daily sync at 6:00 AM UTC"
+}

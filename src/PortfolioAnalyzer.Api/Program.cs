@@ -1,3 +1,4 @@
+using PortfolioAnalyzer.Api.Data;
 using PortfolioAnalyzer.Api.Services;
 using PortfolioAnalyzer.Shared.Interfaces;
 using PortfolioAnalyzer.Shared.Services;
@@ -7,13 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add service defaults & Aspire components
 builder.AddServiceDefaults();
 
+// Add PostgreSQL database with Aspire
+builder.AddNpgsqlDbContext<PortfolioDbContext>("portfoliodb");
+
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Register application services
-builder.Services.AddSingleton<IPortfolioService, MockPortfolioService>();
+builder.Services.AddScoped<IPortfolioService, PostgresPortfolioService>();
 builder.Services.AddSingleton<IFundamentalDataService, MockFundamentalDataService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
@@ -29,6 +33,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Apply database migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
+    dbContext.Database.EnsureCreated(); // For development; use Migrate() in production
+}
 
 // Configure the HTTP request pipeline
 app.MapDefaultEndpoints();

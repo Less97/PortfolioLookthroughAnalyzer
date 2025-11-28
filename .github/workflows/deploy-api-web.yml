@@ -1,0 +1,83 @@
+name: Deploy API and Web App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/PortfolioAnalyzer.Api/**'
+      - 'src/PortfolioAnalyzer.Web/**'
+      - 'src/PortfolioAnalyzer.Shared/**'
+      - 'src/PortfolioAnalyzer.ServiceDefaults/**'
+      - 'src/PortfolioAnalyzer.AppHost/**'
+      - '.github/workflows/deploy-api-web.yml'
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore PortfolioAnalyzer.sln
+        working-directory: ./
+
+      - name: Build solution
+        run: dotnet build PortfolioAnalyzer.sln --configuration Release --no-restore
+        working-directory: ./
+
+      - name: Test
+        run: dotnet test PortfolioAnalyzer.sln --configuration Release --no-build --verbosity normal
+        working-directory: ./
+        continue-on-error: true
+
+      - name: Publish API
+        run: dotnet publish src/PortfolioAnalyzer.Api/PortfolioAnalyzer.Api.csproj --configuration Release --output ./api-publish
+
+      - name: Publish Web
+        run: dotnet publish src/PortfolioAnalyzer.Web/PortfolioAnalyzer.Web.csproj --configuration Release --output ./web-publish
+
+      # Deploy to Azure App Service (API)
+      # Uncomment and configure when Azure resources are created
+      # - name: Deploy API to Azure App Service
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: ${{ secrets.AZURE_API_APP_NAME }}
+      #     publish-profile: ${{ secrets.AZURE_API_PUBLISH_PROFILE }}
+      #     package: ./api-publish
+
+      # Deploy to Azure Static Web Apps (Blazor WASM)
+      # Uncomment and configure when Azure resources are created
+      # - name: Deploy Web to Azure Static Web Apps
+      #   uses: Azure/static-web-apps-deploy@v1
+      #   with:
+      #     azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     action: "upload"
+      #     app_location: "./web-publish/wwwroot"
+      #     api_location: ""
+      #     output_location: ""
+
+      - name: Upload API artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-package
+          path: ./api-publish
+
+      - name: Upload Web artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-package
+          path: ./web-publish

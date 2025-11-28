@@ -1,0 +1,56 @@
+name: Deploy DataSync Azure Function
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/PortfolioAnalyzer.DataSync/**'
+      - 'src/PortfolioAnalyzer.Shared/**'
+      - '.github/workflows/deploy-datasync-function.yml'
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/PortfolioAnalyzer.DataSync'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Azure Function
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+      - name: Build project
+        run: dotnet build --configuration Release --no-restore
+        working-directory: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+      - name: Publish function
+        run: dotnet publish --configuration Release --output ./output
+        working-directory: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+      # Deploy to Azure Functions
+      # Uncomment and configure when Azure Function resource is created
+      # - name: Deploy to Azure Functions
+      #   uses: Azure/functions-action@v1
+      #   with:
+      #     app-name: ${{ secrets.AZURE_FUNCTION_APP_NAME }}
+      #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
+      #     publish-profile: ${{ secrets.AZURE_FUNCTION_PUBLISH_PROFILE }}
+
+      - name: Upload function artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: function-package
+          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output

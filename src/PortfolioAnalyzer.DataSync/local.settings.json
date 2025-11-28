@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "PostgresConnectionString": "Host=localhost;Database=portfoliodb;Username=postgres;Password=postgres",
+    "FmpApiKey": "YOUR_FMP_API_KEY_HERE",
+    "FmpApiBaseUrl": "https://financialmodelingprep.com/api/v3"
+  }
+}
